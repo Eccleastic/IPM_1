@@ -35,9 +35,9 @@
            pattern="^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$"
            title="IPv4" value="127.0.0.1"><br><br>
 
-    <label for="stronawww">Strona WWW (http:/):</label>
+    <label for="stronawww">Strona WWW:</label>
     <input required type="text" id="stronawww" name="stronawww"
-           pattern="^(http\:\/\/|https\:\/\/)(www.)([a-zA-Z0-9-]+\.[0-9a-zA-Z]+)[?/]*|(www.)[a-zA-Z0-9-]+\.[0-9a-zA-Z]+[\w]$"
+           pattern="^(http[s]:\/\/)?(www.)?[a-zA-Z0-9-]+\.[a-zA-Z0-9]+[\/]?.*$"
            title="Adres strony" value="http://www.test.com"><br><br>
 
     <label for="path">ścieżka:</label>
