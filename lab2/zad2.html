@@ -14,38 +14,46 @@
 </head>
 <body>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" title="Adres email" value="example@gmail.com"><br><br>
+    <input required type="email" id="email" name="email" title="Adres email" value="example@gmail.com"><br><br>
 
     <label for="kod_pocztowy">Kod pocztowy:</label>
-    <input type="text" id="kod_pocztowy" name="kod_pocztowy" pattern="^\d{2}-\d{3}$" title="Kod pocztowy [00-000]" value="12-345"><br><br>
+    <input required type="text" id="kod_pocztowy" name="kod_pocztowy" pattern="^\d{2}-\d{3}$" title="Kod pocztowy [00-000]" value="12-345"><br><br>
 
     <label for="nip">NIP z kreskami:</label>
-    <input type="text" id="nip" name="nip" pattern="^((\d{3}[-]\d{3}[-]\d{2}[-]\d{2})|(\d{3}[-]\d{2}[-]\d{2}[-]\d{3}))$" value="123-123-12-12"><br><br>
+    <input required type="text" id="nip" name="nip" pattern="^((\d{3}[-]\d{3}[-]\d{2}[-]\d{2})|(\d{3}[-]\d{2}[-]\d{2}[-]\d{3}))$" value="123-123-12-12"><br><br>
 
     <label for="dowod">Nr dowodu:</label>
-    <input type="text" id="dowod" name="dowod" pattern="^([A-Z]{3}\d{6})$" title="Numer dowodu" value="ABC123456"><br><br>
+    <input required type="text" id="dowod" name="dowod" pattern="^([A-Z]{3}\d{6})$" title="Numer dowodu" value="ABC123456"><br><br>
 
     <label for="ipv4">IPv4:</label>
-    <input type="text" id="ipv4" name="ipv4" pattern="^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$" title="IPv4" value="127.0.0.1"><br><br>
+    <input required type="text" id="ipv4" name="ipv4" pattern="^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$" title="IPv4" value="127.0.0.1"><br><br>
 
     <label for="stronawww">Strona WWW (http:/):</label>
-    <input type="text" id="stronawww" name="stronawww" pattern="^(http\:\/\/|https\:\/\/)(www.)([a-zA-Z0-9-]+\.[0-9a-zA-Z]+)[?/]*|(www.)[a-zA-Z0-9-]+\.[0-9a-zA-Z]+[\w]$"title="Adres strony" value="http://www.test.com"><br><br>
+    <input required type="text" id="stronawww" name="stronawww" pattern="^(http\:\/\/|https\:\/\/)(www.)([a-zA-Z0-9-]+\.[0-9a-zA-Z]+)[?/]*|(www.)[a-zA-Z0-9-]+\.[0-9a-zA-Z]+[\w]$"title="Adres strony" value="http://www.test.com"><br><br>
 
     <label for="path">ścieżka:</label>
-    <input type="text" id="path" name="path" pattern="^[a-zA-Z]:\\(?:windows|winnt|win|dos|msdos)\\.*$" title="Sciezka dysku" value="C:\windows\temp"><br><br>
+    <input required type="text" id="path" name="path" pattern="^[a-zA-Z]:\\(?:windows|winnt|win|dos|msdos)\\.*$" title="Sciezka dysku" value="C:\windows\temp"><br><br>
 
     <label for="path2">ścieżka case sensitive:</label>
-    <input type="text" id="path2" name="path2" pattern="^[a-zA-Z]:\\([Ww][Ii][Nn][Dd][Oo][Ww][Ss]|[Ww][Ii][Nn][Nn][Tt]|[Ww][Ii][Nn]|[Dd][Oo][Ss]|[Mm][Ss][Dd][Oo][Ss])\\.*$" title="Sciezka dysku" value="C:\WINdows\temp"><br><br>
+    <input required type="text" id="path2" name="path2" pattern="^[a-zA-Z]:\\([Ww][Ii][Nn][Dd][Oo][Ww][Ss]|[Ww][Ii][Nn][Nn][Tt]|[Ww][Ii][Nn]|[Dd][Oo][Ss]|[Mm][Ss][Dd][Oo][Ss])\\.*$" title="Sciezka dysku" value="C:\WINdows\temp"><br><br>
 
     <label for="etc">Sciezka etc:</label>
-    <input type="text" id="etc" name="etc" pattern="^(/etc/).*$" title="Sciezka dysku" value="/etc/passwd"><br><br>
+    <input required type="text" id="etc" name="etc" pattern="^(/etc/).*$" title="Sciezka dysku" value="/etc/passwd"><br><br>
 
     <label for="ipv6">IPv6:</label>
-    <input type="text" id="ipv6" name="ipv6" title="IPv6" pattern="^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$" value="2001:0db8:85a3:0000:0000:8a2e:0370:7334"><br><br>
+    <input required type="text" id="ipv6" name="ipv6" title="IPv6" pattern="^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$" value="2001:0db8:85a3:0000:0000:8a2e:0370:7334"><br><br>
 
     <label for="nrtel">Numer telefonu:</label>
-    <input type="text" id="nrtel" name="nrtel" title="Numer telefonu" pattern="^\+48[ ]\d{9}$" value="+48 123456789"><br><br>
+    <input required type="text" id="nrtel" name="nrtel" title="Numer telefonu" pattern="^\+48[ ]\d{9}$" value="+48 123456789"><br><br>
 
+    --------------------------------- Lab 2 -------------------------------------<br><br>
+    <label for="date_input">Kalendarz: </label>
+    <input required type="date" id="date_input" name="date_input" value="2021-03-15"><br><br>
+
+    <label for="date_input_working">Kalendarz (pn-pt): </label>
+    <input required type="date" id="date_input_working" name="date_input" min="2021-03-15" max="2021-03-19"><br><br>
+
+    
     <input type="submit" value="submit">
 </body>
 </html>
