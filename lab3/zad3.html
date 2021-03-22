@@ -1,10 +1,86 @@
+<!--
+        Proszę opracować stronę na której 80% powierzchni zajmować będzie platforma,
+		a na pozostałych 20% będzie guzik "Generuj klocek" i miejsce gdzie będzie się pojawiał
+		klocek z o losowym kolorze. Następnie z wykorzystaniem Drag&Drop użytkownik będzie
+		mógł przenieść klocek na platformie i umieścić na innym klocku.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Drag&Drop</title>
 </head>
 <body>
+<canvas id="dragndrop" width="1900" height="900"></canvas>
 
+<script>
+    var canvas = document.getElementById('dragndrop');
+    var ctx = canvas.getContext("2d");
+
+    var squares = [];
+    var button = {x:1600, y:580, width: 250, height:250};
+    var drag = false, mouseX, mouseY, dragHoldX, dragHoldY;
+
+    function drawPlatform(){
+        ctx.beginPath();
+        ctx.rect(20, 780, 1500, 100);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.stroke();
+    }
+    drawPlatform();
+
+    function drawButton(){
+        ctx.beginPath();
+        ctx.rect(button.x, button.y, button.width, button.height);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.stroke();
+    }
+    drawButton();
+
+    function createSquares() {
+        var x = 1600;
+        var y = 100;
+        color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
+        squares.push({x: x, y: y, width: 200, height: 200, color: color});
+    }
+
+    function drawSquares() {
+        // redraw each shape in the shapes[] array
+        for (var i = 0; i < squares.length; i++) {
+            ctx.fillStyle = squares[i].color;
+            ctx.beginPath();
+            ctx.rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height)
+            ctx.fill();
+            // ctx.stroke();
+        }
+    }
+
+    function getMousePos(canvas, event) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+
+    function isInside(pos, rect){
+        return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+    }
+
+    canvas.addEventListener('click', function(evt) {
+        var mousePos = getMousePos(canvas, evt);
+
+        if (isInside(mousePos,button)) {
+            createSquares();
+            drawSquares();
+        }else if(isInside()){
+            // alert('clicked outside rect');
+        }
+    }, false);
+
+</script>
 </body>
 </html>
