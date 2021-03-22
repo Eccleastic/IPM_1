@@ -59,8 +59,8 @@
         var x = 1600;
         var y = 100;
         color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
-        squares.push({x: x, y: y, width: 200, height: 200, color: color, isDragging: false});
-        drawSquare(x, y, 200, 200, color);
+        squares.push({x: x, y: y, width: 100, height: 100, color: color, isDragging: false});
+        drawSquare(x, y, 100, 100, color);
     }
 
     //clear scene
@@ -130,6 +130,8 @@
         isDraggin = false;
         for (var i = 0; i < squares.length; i++) {
             squares[i].isDragging = false;
+            checkCollisionWithPlatform(squares[i], i);
+            // checkCollisionWithSquares(squares[i], i);
         }
     }
 
@@ -150,13 +152,45 @@
                 }
             }
             draw();
-
             startX = mouseX;
             startY = mouseY;
         }
     }
 
+    function checkCollisionWithPlatform(square, index) {
+        if (square.x < platform.x + platform.width &&
+            square.x + square.width > platform.x &&
+            square.y < platform.y + platform.height &&
+            square.y + square.height > platform.y) {
+            clear();
+            squares[index] = {
+                x: square.x,
+                y: platform.y - 100,
+                width: square.width,
+                height: square.height,
+                color: square.color
+            };
+            // alert('collision');
+            draw();
+        }
+    }
 
+    function checkCollisionWithSquares(square, index) {
+        for (var i = 0; i < squares.length; i++) {
+            if (square == squares[i]) {
+                // same square - skip
+            } else if (square.x < squares[i].x + squares[i].width &&
+                square.x + square.width > squares[i].x &&
+                square.y < squares[i].y + squares[i].height &&
+                square.y + square.height > squares[i].y) {
+
+                // clear();
+                // squares[index] = {x:square.x, y:squares[i]}
+                alert('collision');
+
+            }
+        }
+    }
 
 </script>
 </body>
