@@ -19,43 +19,74 @@
     var ctx = canvas.getContext("2d");
 
     var squares = [];
-    var button = {x:1600, y:580, width: 250, height:250};
-    var drag = false, mouseX, mouseY, dragHoldX, dragHoldY;
+    var button = {x: 1600, y: 580, width: 250, height: 250};
+    var platform = {x: 20, y: 780, width: 1500, height: 100, color: "black"};
+    var isDraggin = false;
+    var startX;
+    var startY;
 
-    function drawPlatform(){
+    var BB = canvas.getBoundingClientRect();
+    var offsetX = BB.left;
+    var offsetY = BB.top;
+    var WIDTH = canvas.width;
+    var HEIGHT = canvas.height;
+
+    canvas.onmousedown = myDown;
+    canvas.onmouseup = myUp;
+    canvas.onmousemove = myMove;
+
+    function drawPlatform() {
+        ctx.fillStyle = platform.color;
         ctx.beginPath();
-        ctx.rect(20, 780, 1500, 100);
-        ctx.fillStyle = "black";
+        ctx.rect(platform.x, platform.y, platform.width, platform.height);
         ctx.fill();
         ctx.stroke();
     }
+
     drawPlatform();
 
-    function drawButton(){
+    function drawButton() {
+        ctx.fillStyle = "red";
         ctx.beginPath();
         ctx.rect(button.x, button.y, button.width, button.height);
-        ctx.fillStyle = "red";
         ctx.fill();
         ctx.stroke();
     }
+
     drawButton();
 
     function createSquares() {
         var x = 1600;
         var y = 100;
         color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
-        squares.push({x: x, y: y, width: 200, height: 200, color: color});
+        squares.push({x: x, y: y, width: 200, height: 200, color: color, isDragging: false});
+        drawSquare(x, y, 200, 200, color);
     }
 
-    function drawSquares() {
-        // redraw each shape in the shapes[] array
+    //clear scene
+    function clear() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    }
+
+    // redraw scene
+    function draw() {
+        clear();
+        // rect(0, 0, WIDTH, HEIGHT);
+        drawPlatform();
+        drawButton();
         for (var i = 0; i < squares.length; i++) {
-            ctx.fillStyle = squares[i].color;
-            ctx.beginPath();
-            ctx.rect(squares[i].x, squares[i].y, squares[i].width, squares[i].height)
-            ctx.fill();
-            // ctx.stroke();
+            var square = squares[i];
+            ctx.fillStyle = square.fill;
+            drawSquare(square.x, square.y, square.width, square.height, square.color);
         }
+    }
+
+    function drawSquare(x, y, w, h, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.closePath();
+        ctx.fill();
     }
 
     function getMousePos(canvas, event) {
@@ -66,20 +97,66 @@
         };
     }
 
-    function isInside(pos, rect){
-        return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+    function isInside(pos, rect) {
+        return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
     }
 
-    canvas.addEventListener('click', function(evt) {
+    canvas.addEventListener('click', function (evt) {
         var mousePos = getMousePos(canvas, evt);
-
-        if (isInside(mousePos,button)) {
+        if (isInside(mousePos, button)) {
             createSquares();
-            drawSquares();
-        }else if(isInside()){
-            // alert('clicked outside rect');
         }
     }, false);
+
+    function myDown(e) {
+
+        var mouseX = parseInt(e.clientX - offsetX);
+        var mouseY = parseInt(e.clientY - offsetY);
+
+        isDraggin = false;
+        for (var i = 0; i < squares.length; i++) {
+            var square = squares[i];
+            if (mouseX > square.x && mouseX < square.x + square.width &&
+                mouseY > square.y && mouseY < square.y + square.height) {
+                isDraggin = true;
+                square.isDragging = true;
+            }
+        }
+        startX = mouseX;
+        startY = mouseY;
+    }
+
+    function myUp(e) {
+        isDraggin = false;
+        for (var i = 0; i < squares.length; i++) {
+            squares[i].isDragging = false;
+        }
+    }
+
+    function myMove(e) {
+        if (isDraggin) {
+
+            var mouseX = parseInt(e.clientX - offsetX);
+            var mouseY = parseInt(e.clientY - offsetY);
+
+            var distanceX = mouseX - startX;
+            var distanceY = mouseY - startY;
+
+            for (var i = 0; i < squares.length; i++) {
+                var square = squares[i];
+                if (square.isDragging) {
+                    square.x += distanceX;
+                    square.y += distanceY;
+                }
+            }
+            draw();
+
+            startX = mouseX;
+            startY = mouseY;
+        }
+    }
+
+
 
 </script>
 </body>
