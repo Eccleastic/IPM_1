@@ -5,28 +5,72 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Lab 4</title>
-
-    <style>
-        div {
-            border: 1px solid black;
-        }
-    </style>
-
 </head>
+<script>
+    let dragged;
+    let id;
+    let index;
+    let indexDrop;
+    let list;
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        dragged = ev.target;
+        id = ev.target.id;
+        list = ev.target.parentNode.children;
+        for (let i = 0; i < list.length; i += 1) {
+            if (list[i] === dragged) {
+                index = i;
+            }
+        }
+    }
+
+    function drop(ev) {
+        if (ev.target.className == "dragItem" && ev.target.id !== id) {
+            dragged.remove(dragged);
+            for (let i = 0; i < list.length; i += 1) {
+                if (list[i] === ev.target) {
+                    indexDrop = i;
+                }
+            }
+            if (index > indexDrop) {
+                ev.target.before(dragged);
+            } else {
+                ev.target.after(dragged);
+            }
+        }
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("id");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+</script>
 
 <body>
-<ol contenteditable="true">
-    <li draggable="true">Pierwsza lista</li>
-</ol>
-
-<ol contenteditable="true">
-    <li draggable="true">Druga lista</li>
-
-
+<ol contenteditable="true" id="ordered">
+    <li id="1" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+        ondragover="allowDrop(event)">
+        Item 1
+    </li>
+    <li id="2" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+        ondragover="allowDrop(event)">
+        Item 2
+    </li>
+    <li id="3" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+        ondragover="allowDrop(event)">
+        Item 3
+    </li>
+    <li id="4" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+        ondragover="allowDrop(event)">
+        Item 4
+    </li>
 </ol>
 </body>
 </html>
