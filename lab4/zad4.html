@@ -16,6 +16,7 @@
     let index;
     let indexDrop;
     let list;
+    var counter = 4;
 
     function allowDrop(ev) {
         ev.preventDefault();
@@ -47,14 +48,18 @@
             }
         }
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("id");
-        ev.target.appendChild(document.getElementById(data));
+    }
+
+    function createListItem(ev) {
+        if (ev.keyCode === 13) {
+            ev.target
+        }
     }
 
 </script>
 
 <body>
-<ol contenteditable="true" id="ordered">
+<ol contenteditable="true" type="1">
     <li id="1" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
         ondragover="allowDrop(event)">
         Item 1
@@ -71,6 +76,24 @@
         ondragover="allowDrop(event)">
         Item 4
     </li>
+    <ol contenteditable="true" type="1">
+        <li id="5" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+            Item 5
+        </li>
+        <li id="6" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+            Item 6
+        </li>
+        <li id="7" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+            Item 7
+        </li>
+        <li id="8" draggable="true" class="dragItem" ondragstart="drag(event)" ondrop="drop(event)"
+            ondragover="allowDrop(event)">
+            Item 8
+        </li>
+    </ol>
 </ol>
 </body>
 </html>
