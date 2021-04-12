@@ -15,12 +15,13 @@ let usersTable = document.getElementById("usersTable");
 request.onsuccess = function (event) {
     db = request.result;
     console.log("Success: " + db);
+    updateTable();
 }
 
 request.onupgradeneeded = function (event) {
     // The database did not previously exist, so create object stores and indexes.
-    var db = request.result;
-    var userInformations = db.createObjectStore("users", {keyPath: "id", autoIncrement: true, unique: true});
+    // var db = request.result;
+    var userInformations = request.result.createObjectStore("users", {keyPath: "id", autoIncrement: true, unique: true});
     var emailIndex = userInformations.createIndex("by_email", "email");
     var nameIndex = userInformations.createIndex("by_name", "name");
     var surnameIndex = userInformations.createIndex("by_surname", "surname");
@@ -71,6 +72,8 @@ function add() {
     request.onerror = function (event) {
         alert("ADD ERROR");
     }
+
+    updateTable();
 }
 
 function read() {
@@ -91,12 +94,15 @@ function read() {
     }
 }
 
-function readAll() {
+function updateTable() {
+    var usersTable = document.getElementById("usersTable");
     var objectStore = db.transaction(["users"]).objectStore("users");
+    usersTable.innerHTML = "";
     objectStore.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
             console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
+            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phonenumber + "</td></tr>"
             cursor.continue();
         } else {
             console.log("That's all.");
