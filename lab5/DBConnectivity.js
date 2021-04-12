@@ -54,7 +54,7 @@ function add() {
     var email = document.getElementById("email").value;
     var name = document.getElementById("name").value;
     var surname = document.getElementById("surname").value;
-    var phonenumber = document.getElementById("phone").value;
+    var phone = document.getElementById("phone").value;
 
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
@@ -62,11 +62,11 @@ function add() {
         email: email,
         name: name,
         surname: surname,
-        phonenumber: phonenumber
+        phone: phone
     });
 
     request.onsuccess = function (event) {
-        console.log("Added: " + email + " " + name + surname + " " + phonenumber)
+        console.log("Added: " + email + " " + name + surname + " " + phone)
     }
 
     request.onerror = function (event) {
@@ -102,7 +102,7 @@ function updateTable() {
         var cursor = event.target.result;
         if (cursor) {
             console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
-            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phonenumber + "</td></tr>"
+            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td></tr>"
             cursor.continue();
         } else {
             console.log("That's all.");
