@@ -6,8 +6,11 @@ if (!window.indexedDB) {
     window.alert("Your browser doesn't support IndexedDB");
 }
 
+indexedDB.deleteDatabase("usersDatabase");
+
 var request = window.indexedDB.open("usersDatabase");
 var db;
+let usersTable = document.getElementById("usersTable");
 
 request.onsuccess = function (event) {
     db = request.result;
@@ -17,41 +20,52 @@ request.onsuccess = function (event) {
 request.onupgradeneeded = function (event) {
     // The database did not previously exist, so create object stores and indexes.
     var db = request.result;
-    var userInformations = db.createObjectStore("users", {keyPath: "id"});
-    var emailIndex = userInformations.createIndex("by_email", "email", {unique: true});
+    var userInformations = db.createObjectStore("users", {keyPath: "id", autoIncrement: true, unique: true});
+    var emailIndex = userInformations.createIndex("by_email", "email");
     var nameIndex = userInformations.createIndex("by_name", "name");
     var surnameIndex = userInformations.createIndex("by_surname", "surname");
+    var phoneIndex = userInformations.createIndex("by_phone", "phone");
 
     // Populate with initial data.
-    userInformations.put({
+    userInformations.add({
         email: "jsmith@gmail.com",
         name: "John",
-        surname: "Smith"
+        surname: "Smith",
+        phone: 123456789
     });
 
-    userInformations.put({
+    userInformations.add({
         email: "jkowalski@gmail.com",
         name: "Jan",
-        surname: "Kowalski"
+        surname: "Kowalski",
+        phone: 123123123
     });
 
-    userInformations.put({
+    userInformations.add({
         email: "djanicki@gmail.com",
         name: "Damian",
-        surname: "Janicki"
+        surname: "Janicki",
+        phone: 943129643
     });
 };
 
-
 function add() {
-    var request = db.transaction("users", "readwrite").objectStore("users").add({
-        email: "secondemail@gmail.com",
-        name: "John",
-        surname: "Smith"
+    var email = document.getElementById("email").value;
+    var name = document.getElementById("name").value;
+    var surname = document.getElementById("surname").value;
+    var phonenumber = document.getElementById("phone").value;
+
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.add({
+        email: email,
+        name: name,
+        surname: surname,
+        phonenumber: phonenumber
     });
 
     request.onsuccess = function (event) {
-        alert("added to db");
+        console.log("Added: " + email + " " + name + surname + " " + phonenumber)
     }
 
     request.onerror = function (event) {
@@ -62,26 +76,30 @@ function add() {
 function read() {
     var transaction = db.transaction(["users"]);
     var objectStore = transaction.objectStore("users");
-    var request = objectStore.get(1);
+    var request = objectStore.get(parseInt(document.getElementById("userid").value));
 
     request.onerror = function (event) {
-        alert("Couldn't retrieve data");
+        console.log("Couldn't retrieve data");
     }
 
     request.onsuccess = function (event) {
-        if(request.result){
-            alert("Users: " + request.result.name + request.result.surname);
-        }
-        else{
-            alert("Couldn't find user in the DB");
+        if (request.result) {
+            console.log("User: " + request.result.name + " " + request.result.surname + " ID:" + request.result.id + " Email: " + request.result.email);
+        } else {
+            console.log("Couldn't find user in the DB");
         }
     }
 }
 
-//
-// db.onerror = function (event) {
-//     // Generic error handler for all errors targeted at this database's
-//     // requests!
-//     console.error("Database error: " + event.target.errorCode);
-// };
-
+function readAll() {
+    var objectStore = db.transaction(["users"]).objectStore("users");
+    objectStore.openCursor().onsuccess = function (event) {
+        var cursor = event.target.result;
+        if (cursor) {
+            console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
+            cursor.continue();
+        } else {
+            console.log("That's all.");
+        }
+    }
+}

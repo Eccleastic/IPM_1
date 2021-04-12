@@ -4,22 +4,8 @@
     <meta charset="UTF-8">
     <title>Indexed DB</title>
     <script src="DBConnectivity.js"></script>
+    <link rel="stylesheet" href="lab5.css">
 </head>
-
-<style>
-    input:valid {
-        border-color: green;
-    }
-
-    input:invalid {
-        border-color: red;
-    }
-
-    div {
-        padding: 20px;
-    }
-</style>
-
 
 <body>
 <div>
@@ -27,19 +13,37 @@
         <label for="email">Email:</label><br><br>
         <input required type="email" id="email" name="email" title="Adres email" value="example@gmail.com"><br><br>
 
-        <label for="nrtel">Numer telefonu:</label><br><br>
-        <input required type="text" id="nrtel" name="phone" title="Numer telefonu" pattern="^\d{9}$"
+        <label for="phone">Numer telefonu:</label><br><br>
+        <input required type="text" id="phone" name="phone" title="Numer telefonu" pattern="^\d{9}$"
                value="123456789"><br><br>
 
-        <label for="imie">Imię:</label><br><br>
-        <input required type="text" id="imie" name="name" value="Jan"><br><br>
+        <label for="name">Imię:</label><br><br>
+        <input required type="text" id="name" name="name" value="Jan"><br><br>
 
-        <label for="nazwisko">Nawisko:</label><br><br>
-        <input required type="text" id="nazwisko" name="surname" value="Kowalski"><br><br>
+        <label for="surname">Nawisko:</label><br><br>
+        <input required type="text" id="surname" name="surname" value="Kowalski"><br><br>
+
+        <label for="userid">User ID:</label>
+        <input type="text" id="userid">
 
     </form>
     <button type="button" id="add" onclick="add();">Dodaj</button>
     <button type="button" id="read" onclick="read();">Read</button>
+    <button type="button" id="readAll" onclick="readAll();">Read all</button>
+</div>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>E-mail</th>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th>Nr. telefonu</th>
+        </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+    </table>
 </div>
 </body>
 </html>
