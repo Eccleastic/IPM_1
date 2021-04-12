@@ -102,7 +102,7 @@ function updateTable() {
         var cursor = event.target.result;
         if (cursor) {
             console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
-            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td></tr>"
+            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.phone + "</td></tr>"
             cursor.continue();
         } else {
             console.log("That's all.");
