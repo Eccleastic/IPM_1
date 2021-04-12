@@ -3,8 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Indexed DB</title>
+    <script src="DBConnectivity.js"></script>
 </head>
-<body>
 
+<style>
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
+    }
+
+    div {
+        padding: 20px;
+    }
+</style>
+
+
+<body>
+<div>
+    <form>
+        <label for="email">Email:</label><br><br>
+        <input required type="email" id="email" name="email" title="Adres email" value="example@gmail.com"><br><br>
+
+        <label for="nrtel">Numer telefonu:</label><br><br>
+        <input required type="text" id="nrtel" name="phone" title="Numer telefonu" pattern="^\d{9}$"
+               value="123456789"><br><br>
+
+        <label for="imie">Imię:</label><br><br>
+        <input required type="text" id="imie" name="name" value="Jan"><br><br>
+
+        <label for="nazwisko">Nawisko:</label><br><br>
+        <input required type="text" id="nazwisko" name="surname" value="Kowalski"><br><br>
+
+    </form>
+    <button type="button" id="add" onclick="add();">Dodaj</button>
+    <button type="button" id="read" onclick="read();">Read</button>
+</div>
 </body>
 </html>
