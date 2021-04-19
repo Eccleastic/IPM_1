@@ -68,6 +68,8 @@ function add() {
     var name = document.getElementById("name").value;
     var surname = document.getElementById("surname").value;
     var phone = document.getElementById("phone").value;
+    var idNumber = document.getElementById("idNumber").value;
+    var postalCode = document.getElementById("kod_pocztowy").value;
 
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
@@ -75,7 +77,9 @@ function add() {
         email: email,
         name: name,
         surname: surname,
-        phone: phone
+        phone: phone,
+        idNumber: idNumber,
+        postalCode: postalCode
     });
 
     request.onsuccess = function (event) {
@@ -122,7 +126,8 @@ function updateTable() {
                 + cursor.value.surname + "</td><td>"
                 + cursor.value.phone + "</td><td>"
                 + cursor.value.idNumber + "</td><td>"
-                + cursor.value.postalCode + "</td></tr>"
+                + cursor.value.postalCode + "</td>"
+                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
             cursor.continue();
         } else {
             console.log("That's all.");
@@ -130,8 +135,12 @@ function updateTable() {
     }
 }
 
-function deleteRecord() {
+function deleteRecord(user_ID) {
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
-    var request = objectStore.delete();
+    var request = objectStore.delete(user_ID);
+    request.onsuccess = function (event) {
+        // It's gone!
+        updateTable();
+    };
 }
