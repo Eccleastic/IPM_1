@@ -141,7 +141,7 @@ function updateTable() {
     }
 }
 
-function orderBy(fieldName){
+function orderBy(fieldName) {
     var usersTable = document.getElementById("usersTable");
     usersTable.innerHTML = "";
 
@@ -184,6 +184,45 @@ function deleteRecord(user_ID) {
     };
 }
 
-function search(){
+function search() {
     var searchInput = document.getElementById("search").value;
+    if (searchInput != "") {
+        var usersTable = document.getElementById("usersTable");
+        usersTable.innerHTML = "";
+
+        var objectStore = db.transaction(["users"]).objectStore("users");
+        objectStore.openCursor().onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                if (
+                    cursor.value.email === searchInput ||
+                    cursor.value.name === searchInput ||
+                    cursor.value.surname === searchInput ||
+                    cursor.value.phone  === searchInput ||
+                    cursor.value.idNumber === searchInput ||
+                    cursor.value.postalCode === searchInput ||
+                    cursor.value.city === searchInput
+                ){
+
+                    console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
+                    usersTable.innerHTML +=
+                        "<tr><td>" + cursor.value.id + "</td><td>"
+                        + cursor.value.email + "</td><td>"
+                        + cursor.value.name + "</td><td>"
+                        + cursor.value.surname + "</td><td>"
+                        + cursor.value.phone + "</td><td>"
+                        + cursor.value.idNumber + "</td><td>"
+                        + cursor.value.postalCode + "</td><td>"
+                        + cursor.value.city + "</td>"
+                        + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
+                    cursor.continue();
+                }
+                else{
+                    cursor.continue();
+                }
+            } else {
+                console.log("That's all.");
+            }
+        }
+    }
 }
