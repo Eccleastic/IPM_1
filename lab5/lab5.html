@@ -20,6 +20,8 @@
         <label for="idNumber">Nr dowodu:</label>
         <input required type="text" id="idNumber" name="idNumber" pattern="^([A-Z]{3}\d{6})$" title="Numer dowodu"
                value="ABC123456"><br><br>
+        <label for="city">Miasto:</label>
+        <input required type="" id="city" name="city" title="Miasto" value="Łódź"><br><br>
 
         <label for="kod_pocztowy">Kod pocztowy:</label>
         <input required type="text" id="kod_pocztowy" name="kod_pocztowy" pattern="^\d{2}-\d{3}$"
@@ -34,20 +36,21 @@
 
     </form>
     <button type="button" id="add" onclick="add();">Dodaj</button>
-    <!--    <button type="button" id="read" onclick="read()">Read</button>-->
     <button type="button" id="readAll" onclick="updateTable()">Update table</button>
+    <br><br><br><br>
 </div>
 <div>
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>E-mail</th>
-            <th>Imie</th>
-            <th>Nazwisko</th>
-            <th>Nr. telefonu</th>
-            <th>Dowód</th>
-            <th>Kod pocztowy</th>
+            <th>ID<button type="button" onclick="orderBy('id')">Sort</button></th>
+            <th>E-mail<button type="button" onclick="orderBy('by_email')">Sort</button></th>
+            <th>Imie<button type="button" onclick="orderBy('by_name')">Sort</button></th>
+            <th>Nazwisko<button type="button" onclick="orderBy('by_surname')">Sort</button></th>
+            <th>Nr. telefonu<button type="button" onclick="orderBy('by_phone')">Sort</button></th>
+            <th>Dowód<button type="button" onclick="orderBy('by_idNumber')">Sort</button></th>
+            <th>Kod pocztowy<button type="button" onclick="orderBy('by_postalCode')">Sort</button></th>
+            <th>Miasto<button type="button" onclick="orderBy('by_city')">Sort</button></th>
         </tr>
         </thead>
         <tbody id="usersTable"></tbody>
