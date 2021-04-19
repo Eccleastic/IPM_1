@@ -21,32 +21,45 @@ request.onsuccess = function (event) {
 request.onupgradeneeded = function (event) {
     // The database did not previously exist, so create object stores and indexes.
     // var db = request.result;
-    var userInformations = request.result.createObjectStore("users", {keyPath: "id", autoIncrement: true, unique: true});
-    var emailIndex = userInformations.createIndex("by_email", "email");
+    var userInformations = request.result.createObjectStore("users", {
+        keyPath: "id",
+        autoIncrement: true,
+        unique: true
+    });
     var nameIndex = userInformations.createIndex("by_name", "name");
     var surnameIndex = userInformations.createIndex("by_surname", "surname");
+    var idNumberIndex = userInformations.createIndex("by_idNumber", "idNumber");
+    var postalCode = userInformations.createIndex("by_postalCode", "postalCode");
+    var emailIndex = userInformations.createIndex("by_email", "email");
     var phoneIndex = userInformations.createIndex("by_phone", "phone");
+
 
     // Populate with initial data.
     userInformations.add({
         email: "jsmith@gmail.com",
         name: "John",
         surname: "Smith",
-        phone: 123456789
+        phone: 123456789,
+        idNumber: "ABC123456",
+        postalCode: "12-345"
     });
 
     userInformations.add({
         email: "jkowalski@gmail.com",
         name: "Jan",
         surname: "Kowalski",
-        phone: 123123123
+        phone: 123123123,
+        idNumber: "XYZ654321",
+        postalCode: "54-321"
     });
 
     userInformations.add({
         email: "djanicki@gmail.com",
         name: "Damian",
         surname: "Janicki",
-        phone: 943129643
+        phone: 943129643,
+        idNumber: "AQL693201",
+        postalCode: "93-201"
     });
 };
 
@@ -102,10 +115,23 @@ function updateTable() {
         var cursor = event.target.result;
         if (cursor) {
             console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
-            usersTable.innerHTML += "<tr><td>" + cursor.value.id + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.name + "</td><td>" + cursor.value.surname + "</td><td>" + cursor.value.phone + "</td></tr>"
+            usersTable.innerHTML +=
+                "<tr><td>" + cursor.value.id + "</td><td>"
+                + cursor.value.email + "</td><td>"
+                + cursor.value.name + "</td><td>"
+                + cursor.value.surname + "</td><td>"
+                + cursor.value.phone + "</td><td>"
+                + cursor.value.idNumber + "</td><td>"
+                + cursor.value.postalCode + "</td></tr>"
             cursor.continue();
         } else {
             console.log("That's all.");
         }
     }
+}
+
+function deleteRecord() {
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.delete();
 }
