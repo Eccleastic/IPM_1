@@ -4,11 +4,11 @@ window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.ms
 
 randomName = ["Jan", "Damian", "Piotr", "Lech", "Krzysztof", "Grzegorz", "Paweł", "Jacek"];
 randomNameF = ["Telimena", "Anna", "Małgorzata", "Aleksandra", "Zofia", "Maria", "Magdalena"];
-randomSurname = ["Kowalski", "Nowacki", "Piotrkowski", "Janicki", "Sobieski", "Bocian", "Soplica"]
-randomSurnameF = ["Kowalska", "Nowacka", "Piotrkowska", "Janicka", "Sobieska", "Bocian", "Soplica"]
+randomSurname = ["Kowalski", "Nowacki", "Piotrkowski", "Janicki", "Sobieski", "Bocian", "Soplica"]randomSurnameF = ["Kowalska", "Nowacka", "Piotrkowska", "Janicka", "Sobieska", "Bocian", "Soplica"]
 randomCity = ["Warszawa", "Kraków", "Poznań", "Łódź", "Wrocław", "Gdańsk", "Szczecin", "Bydgoszcz", "Lublin", "Białystok", "Katowice"]
-
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+orderByField = "by_name";
 
 if (!window.indexedDB) {
     window.alert("Your browser doesn't support IndexedDB");
@@ -128,10 +128,10 @@ function updateTable() {
     var usersTable = document.getElementById("usersTable");
     var objectStore = db.transaction(["users"]).objectStore("users");
     usersTable.innerHTML = "";
-    objectStore.openCursor().onsuccess = function (event) {
+    objectStore.index(orderByField).openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
-            console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
+            // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
             usersTable.innerHTML +=
                 "<tr><td>" + cursor.value.id + "</td><td>"
                 + cursor.value.email + "</td><td>"
@@ -144,7 +144,7 @@ function updateTable() {
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
             cursor.continue();
         } else {
-            console.log("That's all.");
+            // console.log("That's all.");
         }
     }
 }
@@ -152,15 +152,13 @@ function updateTable() {
 function orderBy(fieldName) {
     var usersTable = document.getElementById("usersTable");
     usersTable.innerHTML = "";
-
+    orderByField = fieldName;
     var transaction = db.transaction(["users"]);
     var objectStore = transaction.objectStore("users");
-    console.log("Order by: " + fieldName)
     var orderCursor = objectStore.index(fieldName).openCursor();
     orderCursor.onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
-            console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
             usersTable.innerHTML +=
                 "<tr><td>" + cursor.value.id + "</td><td>"
                 + cursor.value.email + "</td><td>"
@@ -173,7 +171,7 @@ function orderBy(fieldName) {
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
             cursor.continue();
         } else {
-            console.log("That's all.");
+            // console.log("That's all.");
         }
     }
     request.onerror = function (event) {
@@ -193,7 +191,7 @@ function deleteRecord(user_ID) {
 }
 
 function search() {
-    var searchInput = document.getElementById("search").value;
+    var searchInput = document.getElementById("search").value.toLowerCase();
     if (searchInput != "") {
         var usersTable = document.getElementById("usersTable");
         usersTable.innerHTML = "";
@@ -203,16 +201,14 @@ function search() {
             var cursor = event.target.result;
             if (cursor) {
                 if (
-                    cursor.value.email === searchInput ||
-                    cursor.value.name === searchInput ||
-                    cursor.value.surname === searchInput ||
-                    cursor.value.phone === searchInput ||
-                    cursor.value.idNumber === searchInput ||
-                    cursor.value.postalCode === searchInput ||
-                    cursor.value.city === searchInput
+                    cursor.value.email.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.name.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.surname.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.idNumber.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.postalCode.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.city.toLowerCase().search(searchInput) > -1
                 ) {
-
-                    console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
+                    // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
                     usersTable.innerHTML +=
                         "<tr><td>" + cursor.value.id + "</td><td>"
                         + cursor.value.email + "</td><td>"
@@ -228,9 +224,11 @@ function search() {
                     cursor.continue();
                 }
             } else {
-                console.log("That's all.");
+                // console.log("That's all.");
             }
         }
+    } else {
+        updateTable();
     }
 }
 
@@ -244,10 +242,10 @@ function randomChar(amount) {
 
 
 function generatePerson() {
-    if (Math.floor(Math.random()*2)) {
+    if (Math.floor(Math.random() * 2)) {
         name = randomName[Math.floor(Math.random() * 7)];
         surname = randomSurname[Math.floor(Math.random() * 7)];
-        email = surname.toLowerCase()+name.substring(2) + "@gmail.com";
+        email = surname.toLowerCase() + name.substring(2) + "@gmail.com";
         phone = Math.random().toString().substring(2, 11);
         idNumber = randomChar(3) + Math.random().toString().substring(2, 8);
         postalCode = Math.random().toString().substring(2, 4) + "-" + Math.random().toString().substring(2, 5);
@@ -256,7 +254,7 @@ function generatePerson() {
     } else {
         name = randomNameF[Math.floor(Math.random() * 7)];
         surname = randomSurnameF[Math.floor(Math.random() * 7)];
-        email = surname.toLowerCase()+name.substring(2) + "@gmail.com";
+        email = surname.toLowerCase() + name.substring(2) + "@gmail.com";
         phone = Math.random().toString().substring(2, 11);
         idNumber = randomChar(3) + Math.random().toString().substring(2, 8);
         postalCode = Math.random().toString().substring(2, 4) + "-" + Math.random().toString().substring(2, 5);

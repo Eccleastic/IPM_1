@@ -39,14 +39,14 @@
 <!--    <button type="button" id="readAll" onclick="updateTable()">Update table</button>-->
     <br><br><br><br>
     <label for="search">Wyszukaj</label>
-    <input type="text" id="search">
-    <button type="button" onclick="search()">Wyszukaj</button>
+    <input type="text" id="search" onkeyup="search();">
+<!--    <button type="button" onclick="search()">Wyszukaj</button>-->
 </div>
 <div>
     <table>
         <thead>
         <tr>
-            <th>ID<button type="button" onclick="orderBy('id')">Sort</button></th>
+            <th>ID</th>
             <th>E-mail<button type="button" onclick="orderBy('by_email')">Sort</button></th>
             <th>Imie<button type="button" onclick="orderBy('by_name')">Sort</button></th>
             <th>Nazwisko<button type="button" onclick="orderBy('by_surname')">Sort</button></th>
