@@ -4,8 +4,9 @@ window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.ms
 
 randomName = ["Jan", "Damian", "Piotr", "Lech", "Krzysztof", "Grzegorz", "Paweł", "Jacek"];
 randomNameF = ["Telimena", "Anna", "Małgorzata", "Aleksandra", "Zofia", "Maria", "Magdalena"];
-randomSurname = ["Kowalski", "Nowacki", "Piotrkowski", "Janicki", "Sobieski", "Bocian", "Soplica"]randomSurnameF = ["Kowalska", "Nowacka", "Piotrkowska", "Janicka", "Sobieska", "Bocian", "Soplica"]
-randomCity = ["Warszawa", "Kraków", "Poznań", "Łódź", "Wrocław", "Gdańsk", "Szczecin", "Bydgoszcz", "Lublin", "Białystok", "Katowice"]
+randomSurname = ["Kowalski", "Nowacki", "Piotrkowski", "Janicki", "Sobieski", "Bocian", "Soplica"];
+randomSurnameF = ["Kowalska", "Nowacka", "Piotrkowska", "Janicka", "Sobieska", "Bocian", "Soplica"];
+randomCity = ["Warszawa", "Kraków", "Poznań", "Łódź", "Wrocław", "Gdańsk", "Szczecin", "Bydgoszcz", "Lublin", "Białystok", "Katowice"];
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 orderByField = "by_name";
@@ -141,7 +142,7 @@ function updateTable() {
                 + cursor.value.idNumber + "</td><td>"
                 + cursor.value.postalCode + "</td><td>"
                 + cursor.value.city + "</td>"
-                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
+                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td>"
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -152,7 +153,8 @@ function updateTable() {
 function orderBy(fieldName) {
     var usersTable = document.getElementById("usersTable");
     usersTable.innerHTML = "";
-    orderByField = fieldName;
+    orderByField += ", " + fieldName;
+    console.log(orderByField);
     var transaction = db.transaction(["users"]);
     var objectStore = transaction.objectStore("users");
     var orderCursor = objectStore.index(fieldName).openCursor();
@@ -178,6 +180,40 @@ function orderBy(fieldName) {
         console.log("Couldn't retrieve data");
     }
 
+}
+
+function edit(){
+    var id = parseInt(document.getElementById("index").value);
+    var email = document.getElementById("editemail").value;
+    var name = document.getElementById("editname").value;
+    var surname = document.getElementById("editsurname").value;
+    var phone = document.getElementById("editphone").value;
+    var idNumber = document.getElementById("editidNumber").value;
+    var postalCode = document.getElementById("editkod_pocztowy").value;
+    var city = document.getElementById("editcity").value;
+
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.put({
+        id: id,
+        email: email,
+        name: name,
+        surname: surname,
+        phone: phone,
+        idNumber: idNumber,
+        postalCode: postalCode,
+        city: city
+    });
+
+    request.onsuccess = function (event) {
+        console.log("Added: " + email + " " + name + surname + " " + phone)
+    }
+
+    request.onerror = function (event) {
+        alert("ADD ERROR");
+    }
+
+    updateTable();
 }
 
 function deleteRecord(user_ID) {
@@ -239,7 +275,6 @@ function randomChar(amount) {
     }
     return result.toUpperCase();
 }
-
 
 function generatePerson() {
     if (Math.floor(Math.random() * 2)) {

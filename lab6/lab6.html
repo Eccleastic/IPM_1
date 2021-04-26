@@ -9,7 +9,9 @@
 
 <body>
 <div>
+    <p>
     <form>
+        <legend>Dodaj</legend>
         <label for="name">Imię:</label>
         <input required type="text" id="name" name="name" value="Jan"><br><br>
 
@@ -36,24 +38,73 @@
     </form>
     <button type="button" id="add" onclick="add();">Dodaj</button>
     <button type="button" id="generatePerson" onclick="generatePerson()">Generuj osobę</button>
-<!--    <button type="button" id="readAll" onclick="updateTable()">Update table</button>-->
-    <br><br><br><br>
+    </p>
+
+    <p>
+    <form>
+        <legend>Edytuj</legend>
+
+        <label for="index">ID:</label>
+        <input required type="text" id="index" name="index" value="1"><br><br>
+
+        <label for="name">Imię:</label>
+        <input required type="text" id="editname" name="name" value="Jan"><br><br>
+
+        <label for="surname">Nawisko:</label>
+        <input required type="text" id="editsurname" name="surname" value="Kowalski"><br><br>
+
+        <label for="idNumber">Nr dowodu:</label>
+        <input required type="text" id="editidNumber" name="idNumber" pattern="^([A-Z]{3}\d{6})$" title="Numer dowodu"
+               value="ABC123456"><br><br>
+        <label for="city">Miasto:</label>
+        <input required type="" id="editcity" name="city" title="Miasto" value="Łódź"><br><br>
+
+        <label for="kod_pocztowy">Kod pocztowy:</label>
+        <input required type="text" id="editkod_pocztowy" name="kod_pocztowy" pattern="^\d{2}-\d{3}$"
+               title="Kod pocztowy [00-000]" value="12-345"><br><br>
+
+        <label for="email">Email:</label>
+        <input required type="email" id="editemail" name="email" title="Adres email" value="example@gmail.com"><br><br>
+
+        <label for="phone">Numer telefonu:</label>
+        <input required type="text" id="editphone" name="phone" title="Numer telefonu" pattern="^\d{9}$"
+               value="123456789"><br><br>
+    </form>
+    <button type="button" id="edit" onclick="edit();">Edit</button>
+    </p>
+    <br>
     <label for="search">Wyszukaj</label>
     <input type="text" id="search" onkeyup="search();">
-<!--    <button type="button" onclick="search()">Wyszukaj</button>-->
+</div>
+<div>
+
 </div>
 <div>
     <table>
         <thead>
         <tr>
             <th>ID</th>
-            <th>E-mail<button type="button" onclick="orderBy('by_email')">Sort</button></th>
-            <th>Imie<button type="button" onclick="orderBy('by_name')">Sort</button></th>
-            <th>Nazwisko<button type="button" onclick="orderBy('by_surname')">Sort</button></th>
-            <th>Nr. telefonu<button type="button" onclick="orderBy('by_phone')">Sort</button></th>
-            <th>Dowód<button type="button" onclick="orderBy('by_idNumber')">Sort</button></th>
-            <th>Kod pocztowy<button type="button" onclick="orderBy('by_postalCode')">Sort</button></th>
-            <th>Miasto<button type="button" onclick="orderBy('by_city')">Sort</button></th>
+            <th>E-mail
+                <button type="button" onclick="orderBy('by_email')">Sort</button>
+            </th>
+            <th>Imie
+                <button type="button" onclick="orderBy('by_name')">Sort</button>
+            </th>
+            <th>Nazwisko
+                <button type="button" onclick="orderBy('by_surname')">Sort</button>
+            </th>
+            <th>Nr. telefonu
+                <button type="button" onclick="orderBy('by_phone')">Sort</button>
+            </th>
+            <th>Dowód
+                <button type="button" onclick="orderBy('by_idNumber')">Sort</button>
+            </th>
+            <th>Kod pocztowy
+                <button type="button" onclick="orderBy('by_postalCode')">Sort</button>
+            </th>
+            <th>Miasto
+                <button type="button" onclick="orderBy('by_city')">Sort</button>
+            </th>
         </tr>
         </thead>
         <tbody id="usersTable"></tbody>
