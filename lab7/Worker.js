@@ -16,11 +16,11 @@ var city = document.getElementById("city").value;
 //     postalCode,
 //     city
 // ];
-var formData = JSON.stringify($("#myForm").serializeArray());
 
 
 
 function startWorker() {
+    var formData = JSON.stringify($("#myForm").serializeArray());
     console.log(formData);
     if (typeof (Worker) !== "undefined") {
         if (typeof (w) == "undefined") {
