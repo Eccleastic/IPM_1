@@ -11,7 +11,7 @@
 
 var w;
 
-document.getElementById("changeLetters").onclick = function (event) {
+function startWorker(){
     console.log("1");
     w = new Worker("Worker.js");
     const preJSONData = {
@@ -39,7 +39,11 @@ document.getElementById("changeLetters").onclick = function (event) {
     }
     console.log("3");
     stopWorker();
-};
+}
+
+// document.getElementById("changeLetters").onclick = function (event) {
+//
+// };
 
 function stopWorker() {
     w.terminate();
