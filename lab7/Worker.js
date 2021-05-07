@@ -14,7 +14,7 @@ self.onmessage = function (JSONData) {
     var parseData = JSON.parse(JSONData.data);
     Object.keys(parseData).forEach(function (key) {
         var newData = [];
-            for (i = 0; i < newData.length; i++) {
+            for (i = 0; i < parseData[key].length; i++) {
                 if (parseData[key][i] == parseData[key][i].toLowerCase()) {
                     newData[i] = parseData[key][i].toUpperCase();
                 } else {
