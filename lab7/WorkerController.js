@@ -39,7 +39,7 @@ document.getElementById("changeLetters").onclick = function (event) {
     }
     console.log("3");
     stopWorker();
-}
+};
 
 function stopWorker() {
     w.terminate();
