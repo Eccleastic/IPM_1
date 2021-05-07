@@ -32,6 +32,9 @@ function startWorker(){
 
 function updateFormData(event){
     var parsedData = JSON.parse(event.data);
+    console.log("7");
+    console.log(event.data);
+    console.log(parsedData);
     document.getElementById("email").value = parsedData['email'];
     document.getElementById("name").value = parsedData['name'];
     document.getElementById("surname").value = parsedData['surname'];
@@ -40,6 +43,7 @@ function updateFormData(event){
     document.getElementById("kod_pocztowy").value = parsedData['postalCode'];
     document.getElementById("city").value = parsedData['city'];
     stopWorker();
+    console.log("8");
 }
 // document.getElementById("changeLetters").onclick = function (event) {
 //
