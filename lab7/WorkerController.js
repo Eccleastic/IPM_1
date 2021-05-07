@@ -11,7 +11,7 @@
 
 var w;
 
-document.getElementById("changeLetters").onclick = function () {
+document.getElementById("changeLetters").onclick = function (event) {
     console.log("1");
     w = new Worker("Worker.js");
     const preJSONData = {
