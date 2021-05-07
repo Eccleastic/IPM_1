@@ -21,7 +21,7 @@ self.onmessage = function (JSONData) {
                     newData[i] = parseData[key][i].toLowerCase();
                 }
             }
-            changedData[key] = newData;
+            changedData[key] = newData.join("");
             console.log(newData)
         }
     );
