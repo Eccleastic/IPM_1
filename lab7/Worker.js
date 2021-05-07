@@ -10,6 +10,8 @@ var changedData = {
 
 onmessage = function (JSONData) {
     // var formData = JSON.stringify($("#myForm").serializeArray());
+    console.log("4");
+
     console.log(JSONData.data);
     var parseData = JSON.parse(JSONData.data);
     Object.keys(parseData).forEach(function (key) {
@@ -24,6 +26,10 @@ onmessage = function (JSONData) {
             changedData[key] = newData;
         }
     );
+    console.log("5");
+
     self.postMessage(JSON.stringify(changedData));
+    console.log("6");
+
 }
 

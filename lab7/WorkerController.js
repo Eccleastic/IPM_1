@@ -12,6 +12,7 @@
 var w;
 
 document.getElementById("changeLetters").onclick = function () {
+    console.log("1");
     w = new Worker("Worker.js");
     const preJSONData = {
         email: document.getElementById("email").value,
@@ -24,6 +25,7 @@ document.getElementById("changeLetters").onclick = function () {
     };
 
     w.postMessage(JSON.stringify(preJSONData))
+    console.log("2");
 
     w.onmessage = function (event) {
         var parsedData = JSON.parse(event.data);
@@ -35,6 +37,7 @@ document.getElementById("changeLetters").onclick = function () {
         document.getElementById("kod_pocztowy").value = parsedData['postalCode'];
         document.getElementById("city").value = parsedData['city'];
     }
+    console.log("3");
     stopWorker();
 }
 
