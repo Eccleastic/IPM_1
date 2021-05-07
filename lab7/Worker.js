@@ -8,7 +8,7 @@ var changedData = {
     city: ""
 };
 
-onmessage = function (JSONData) {
+self.onmessage = function (JSONData) {
     // var formData = JSON.stringify($("#myForm").serializeArray());
     console.log("4");
 

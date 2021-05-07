@@ -26,21 +26,21 @@ function startWorker(){
 
     w.postMessage(JSON.stringify(preJSONData))
     console.log("2");
-
-    w.onmessage = function (event) {
-        var parsedData = JSON.parse(event.data);
-        document.getElementById("email").value = parsedData['email'];
-        document.getElementById("name").value = parsedData['name'];
-        document.getElementById("surname").value = parsedData['surname'];
-        document.getElementById("phone").value = parsedData['phone'];
-        document.getElementById("idNumber").value = parsedData['idNumber'];
-        document.getElementById("kod_pocztowy").value = parsedData['postalCode'];
-        document.getElementById("city").value = parsedData['city'];
-    }
+    w.addEventListener('message', updateFormData);
     console.log("3");
-    stopWorker();
 }
 
+function updateFormData(event){
+    var parsedData = JSON.parse(event.data);
+    document.getElementById("email").value = parsedData['email'];
+    document.getElementById("name").value = parsedData['name'];
+    document.getElementById("surname").value = parsedData['surname'];
+    document.getElementById("phone").value = parsedData['phone'];
+    document.getElementById("idNumber").value = parsedData['idNumber'];
+    document.getElementById("kod_pocztowy").value = parsedData['postalCode'];
+    document.getElementById("city").value = parsedData['city'];
+    stopWorker();
+}
 // document.getElementById("changeLetters").onclick = function (event) {
 //
 // };
