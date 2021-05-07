@@ -10,26 +10,21 @@ var changedData = {
 
 self.onmessage = function (JSONData) {
     // var formData = JSON.stringify($("#myForm").serializeArray());
-    console.log("4");
-
     console.log(JSONData.data);
     var parseData = JSON.parse(JSONData.data);
     Object.keys(parseData).forEach(function (key) {
         var newData = parseData[key];
-            for (i = 0; i < parseData[key].length; i++) {
-                if (parseData[key][i] == parseData[key][i].toLowerCase()) {
-                    newData[i] = parseData[key][i].toUpperCase();
+            for (i = 0; i < newData.length; i++) {
+                if (newData[i] == newData[i].toLowerCase()) {
+                    newData[i] = newData[i].toUpperCase();
                 } else {
-                    newData[i] = parseData[key][i].toLowerCase();
+                    newData[i] = newData[i].toLowerCase();
                 }
             }
             changedData[key] = newData;
+            console.log(newData)
         }
     );
-    console.log("5");
-
     self.postMessage(JSON.stringify(changedData));
-    console.log("6");
-
 }
 
