@@ -12,12 +12,24 @@
 var letterWorker;
 var imgWorker;
 
-function startImgWorker(){
+var addRule = (function (style) {
+    var sheet = document.head.appendChild(style).sheet;
+    return function (selector, css) {
+        var propText = typeof css === "string" ? css : Object.keys(css).map(function (p) {
+            return p + ":" + (p === "content" ? "'" + css[p] + "'" : css[p]);
+        }).join(";");
+        sheet.insertRule(selector + "{" + propText + "}", sheet.cssRules.length);
+    };
+})(document.createElement("style"));
+
+
+function startImgWorker() {
     imgWorker = new Worker("ImgWorker.js");
     var imgLink = document.getElementById("imglink").value;
     document.getElementById("weirdImage").src = imgLink;
-    document.getElementById("imgFilter").style.backgroundImage = "url('"+imgLink+"')";
-    document.getElementById("imgFilter").style.position = "absolute";
+    // document.getElementById("imgFilter").style.backgroundSize = "cover";
+
+    // document.getElementById("imgFilter").style.position = "absolute";
     const preJSONData = {
         imgLink: imgLink
     };
@@ -25,15 +37,38 @@ function startImgWorker(){
     imgWorker.addEventListener('message', updateImage);
 }
 
-function updateImage(event){
+function updateImage(event) {
     var parsedData = JSON.parse(event.data);
+    var imgLink = document.getElementById("imglink").value;
     console.log(parsedData.R);
     console.log(parsedData.G);
     console.log(parsedData.B);
-    document.getElementById("imgFilter").style.backgroundColor = "rgb(" + parsedData.R + ", " + parsedData.G + " ," + parsedData.B + ")";
+    document.getElementById("calculatedValue").innerText = "Obliczona wartość z linku to: " + parsedData.lettersValue;
+    document.getElementById("calculatedValueR").innerText = "Wartość R: " + parsedData.R;
+    document.getElementById("calculatedValueG").innerText = "Wartość G: " + parsedData.G;
+    document.getElementById("calculatedValueB").innerText = "Wartość B: " + parsedData.B;
+
+    // addRule(".imgFilter::after", {
+    //     backgroundColor: rgb(parsedData.R, parsedData.G, parsedData.B),
+    //     opacity: 0.50
+    // });
+
+    // document.styleSheets[0].addRule('.imgFilter::after', 'color: rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')');
+    // document.styleSheets[0].addRule('.imgFilter::after', 'opacity: 50%');
+    // $('p').on('click', function () {
+    //     $(this).attr('data-before', str);
+    // });
+    document.getElementById("imgFilter").style.setProperty('--color', 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')');
+    document.getElementById("imgFilter").style.backgroundImage = "url('" + imgLink + "')";
+    // document.getElementById("imgFilter").style.setProperty('')
+    // document.querySelector('.imgFilter')[0].setAttribute('color-value', 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')')
+    // document.styleSheets[0].addRule('.imgFilter::after', 'background-color: rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')')
+    // document.getElementById("imgFilter").style.filter = "opacity(50%)";
+    // document.getElementById("imgFilter").style.backgroundColor = "rgb(" + parsedData.R + ", " + parsedData.G + " ," + parsedData.B + ")";
+    stopWorker(imgWorker);
 }
 
-function startLetterWorker(){
+function startLetterWorker() {
     letterWorker = new Worker("Worker.js");
     const preJSONData = {
         email: document.getElementById("email").value,
@@ -48,7 +83,7 @@ function startLetterWorker(){
     letterWorker.addEventListener('message', updateFormData);
 }
 
-function updateFormData(event){
+function updateFormData(event) {
     var parsedData = JSON.parse(event.data);
     console.log(event.data);
     document.getElementById("email").value = parsedData['email'];

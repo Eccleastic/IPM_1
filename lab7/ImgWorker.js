@@ -13,13 +13,15 @@ var dataToPost = {
 
 self.onmessage = function (JSONData) {
     var parsedData = JSON.parse(JSONData.data);
-    for (var c in parsedData.imgLink.split("")) {
+    var splitData = parsedData.imgLink.split("");
+    for (var c of splitData) {
         if (c.charCodeAt(0) >= 97 && c.charCodeAt(0) <= 122) {
             lettersValue += c.charCodeAt(0) - 96;
         } else if (c.charCodeAt(0) >= 65 && c.charCodeAt(0) <= 90) {
             lettersValue += c.charCodeAt(0) - 64 + 30;
         }
     }
+    console.log(lettersValue)
     R = lettersValue % 255;
     G = 255 - (lettersValue % 255);
     if (R * 0.5 > 125) {
