@@ -9,11 +9,30 @@
         * defaultListener: the default listener executed only when the Worker calls the postMessage() function directly
      */
 
-var w;
+var letterWorker;
+var imgWorker;
 
-function startWorker(){
-    console.log("1");
-    w = new Worker("Worker.js");
+function startImgWorker(){
+    imgWorker = new Worker("ImgWorker.js");
+    var imgLink = document.getElementById("imglink").value;
+    document.getElementById("weirdImage").src = imgLink;
+    const preJSONData = {
+        imgLink: imgLink
+    };
+    imgWorker.postMessage(JSON.stringify(preJSONData));
+    imgWorker.addEventListener('message', updateImage);
+}
+
+function updateImage(event){
+    var parsedData = JSON.parse(event.data);
+    console.log(parsedData.R);
+    console.log(parsedData.G);
+    console.log(parsedData.B);
+
+}
+
+function startLetterWorker(){
+    letterWorker = new Worker("Worker.js");
     const preJSONData = {
         email: document.getElementById("email").value,
         name: document.getElementById("name").value,
@@ -23,18 +42,13 @@ function startWorker(){
         postalCode: document.getElementById("kod_pocztowy").value,
         city: document.getElementById("city").value
     };
-
-    w.postMessage(JSON.stringify(preJSONData))
-    console.log("2");
-    w.addEventListener('message', updateFormData);
-    console.log("3");
+    letterWorker.postMessage(JSON.stringify(preJSONData))
+    letterWorker.addEventListener('message', updateFormData);
 }
 
 function updateFormData(event){
     var parsedData = JSON.parse(event.data);
-    console.log("7");
     console.log(event.data);
-    console.log(parsedData);
     document.getElementById("email").value = parsedData['email'];
     document.getElementById("name").value = parsedData['name'];
     document.getElementById("surname").value = parsedData['surname'];
@@ -42,14 +56,9 @@ function updateFormData(event){
     document.getElementById("idNumber").value = parsedData['idNumber'];
     document.getElementById("kod_pocztowy").value = parsedData['postalCode'];
     document.getElementById("city").value = parsedData['city'];
-    stopWorker();
-    console.log("8");
+    stopWorker(letterWorker);
 }
-// document.getElementById("changeLetters").onclick = function (event) {
-//
-// };
 
-function stopWorker() {
-    w.terminate();
-    w = undefined;
+function stopWorker(worker) {
+    worker.terminate();
 }
