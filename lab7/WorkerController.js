@@ -17,12 +17,12 @@ function startImgWorker(){
     var imgLink = document.getElementById("imglink").value;
     document.getElementById("weirdImage").src = imgLink;
     document.getElementById("imgFilter").style.backgroundImage = "url('"+imgLink+"')";
-    // document.getElementById("imgFilter").style.position = "relative";
+    document.getElementById("imgFilter").style.position = "absolute";
     const preJSONData = {
         imgLink: imgLink
     };
-    // imgWorker.postMessage(JSON.stringify(preJSONData));
-    // imgWorker.addEventListener('message', updateImage);
+    imgWorker.postMessage(JSON.stringify(preJSONData));
+    imgWorker.addEventListener('message', updateImage);
 }
 
 function updateImage(event){
