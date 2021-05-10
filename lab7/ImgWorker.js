@@ -12,7 +12,7 @@ var dataToPost = {
 };
 
 self.onmessage = function (JSONData) {
-    var parsedData = JSON.parse(JSONData);
+    var parsedData = JSON.parse(JSONData.data);
     for (var c in parsedData.imgLink.split("")) {
         if (c.charCodeAt(0) >= 97 && c.charCodeAt(0) <= 122) {
             lettersValue += c.charCodeAt(0) - 96;

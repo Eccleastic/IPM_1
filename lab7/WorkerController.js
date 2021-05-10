@@ -16,11 +16,13 @@ function startImgWorker(){
     imgWorker = new Worker("ImgWorker.js");
     var imgLink = document.getElementById("imglink").value;
     document.getElementById("weirdImage").src = imgLink;
+    document.getElementById("imgFilter").style.backgroundImage = "url('"+imgLink+"')";
+    // document.getElementById("imgFilter").style.position = "relative";
     const preJSONData = {
         imgLink: imgLink
     };
-    imgWorker.postMessage(JSON.stringify(preJSONData));
-    imgWorker.addEventListener('message', updateImage);
+    // imgWorker.postMessage(JSON.stringify(preJSONData));
+    // imgWorker.addEventListener('message', updateImage);
 }
 
 function updateImage(event){
@@ -28,7 +30,7 @@ function updateImage(event){
     console.log(parsedData.R);
     console.log(parsedData.G);
     console.log(parsedData.B);
-
+    document.getElementById("imgFilter").style.backgroundColor = "rgb(" + parsedData.R + ", " + parsedData.G + " ," + parsedData.B + ")";
 }
 
 function startLetterWorker(){

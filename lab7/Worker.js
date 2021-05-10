@@ -22,7 +22,6 @@ self.onmessage = function (JSONData) {
                 }
             }
             changedData[key] = newData.join("");
-            console.log(newData)
         }
     );
     self.postMessage(JSON.stringify(changedData));

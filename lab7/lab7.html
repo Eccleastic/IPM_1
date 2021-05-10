@@ -10,6 +10,9 @@
 </head>
 
 <body>
+<div id="imgFilter">
+    <img id="weirdImage" style="visibility: hidden">
+</div>
 <table>
     <tr>
         <td style="width: 50%;">
@@ -86,9 +89,10 @@
 <input type="text" id="imglink">
 <button onclick="startImgWorker()">Generuj</button>
 <br>
-<span>
-    <img id="weirdImage" src=""></img>
-</span>
+
+<!--<span id="imgFilter" style="opacity: 50%;">-->
+<!--    <img id="weirdImage" src=""></img>-->
+<!--</span>-->
 <br>
 <label for="search">Wyszukaj</label>
 <input type="text" id="search" onkeyup="search();">
