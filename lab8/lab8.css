@@ -31,7 +31,9 @@ tr:nth-child(even) {
     position: relative;
     background-position: center;
     background-size: cover;
-    --color: black;
+    --color: white;
+    width: 100px;
+    height: 100px;
 }
 
 #imgFilter::after{
@@ -44,3 +46,4 @@ tr:nth-child(even) {
     height: 100%;
     opacity: 50%;
 }
+

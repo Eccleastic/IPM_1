@@ -7,7 +7,10 @@
         * removeListener(name): removes a listener
       QueryableWorker instances properties:
         * defaultListener: the default listener executed only when the Worker calls the postMessage() function directly
-     */
+
+        * komenda 'ws' odpala web server <- komentarz dla tworcy bo zapominam
+ */
+
 
 var letterWorker;
 var imgWorker;
@@ -35,6 +38,7 @@ function updateImage(event) {
     console.log(parsedData.R);
     console.log(parsedData.G);
     console.log(parsedData.B);
+    document.getElementById("filterColorTestRectangle").style.backgroundColor = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
     document.getElementById("calculatedValue").innerText = "Obliczona wartość to: " + parsedData.lettersValue;
     document.getElementById("calculatedValueR").innerText = "Wartość R: " + parsedData.R;
     document.getElementById("calculatedValueG").innerText = "Wartość G: " + parsedData.G;
@@ -43,20 +47,24 @@ function updateImage(event) {
     document.getElementById("imgFilter").style.setProperty('--color', 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')');
     // document.getElementById("imgFilter").style.backgroundImage = "url('" + imgLink + "')";
 
-    var canvas = document.getElementById("scaledImage");
-    context = canvas.getContext('2d');
-    makeBase(context, imgLink);
-    document.getElementById("filterColorTestRectangle").style.backgroundColor = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
+
+    insertImgCanvas(imgLink);
     stopWorker(imgWorker);
 }
 
-function makeBase(context, imgsrc){
-    base_image = new Image();
+function insertImgCanvas(imgsrc) {
+    var canvas = document.getElementById("scaledImage");
+    var context = canvas.getContext('2d');
+
+    var base_image = new Image();
     base_image.src = imgsrc;
+    base_image.crossOrigin = "Anonymous";
     base_image.onload = function () {
         context.width = 100;
         context.height = 100;
         context.drawImage(base_image, 0, 0, 100, 100);
+        canvas.toDataURL("image/jpeg");
+        console.log(canvas.toDataURL("image/jpeg"));
     }
 }
 

@@ -40,10 +40,15 @@
                 <label for="phone">Numer telefonu:</label>
                 <input required type="text" id="phone" name="phone" title="Numer telefonu" pattern="^\d{9}$"
                        value="123456789"><br><br>
+
+                <label for="imglink">Link do obrazka:</label>
+                <input type="text" id="imglink"><br><br>
             </form>
             <button type="button" id="add" onclick="add();">Dodaj</button>
             <button type="button" id="generatePerson" onclick="generatePerson()">Generuj osobę</button>
             <button type="button" id="changeLetters" onclick="startLetterWorker()">Zamień litery</button>
+            <button onclick="startImgWorker()">Generuj filtr</button>
+
         </td>
         <td style="width: 50%;">
             <form>
@@ -83,18 +88,12 @@
 <br>
 <br>
 
-<label for="imglink">Link do obrazka:</label>
-<input type="text" id="imglink">
-<button onclick="startImgWorker()">Generuj</button>
+
 <canvas id="filterColorTestRectangle" width="20" height="20"></canvas>
-<label id="calculatedValue"></label>
-<br>
-<label id="calculatedValueR"></label>
-<br>
-<label id="calculatedValueG"></label>
-<br>
-<label id="calculatedValueB"></label>
-<br>
+<label id="calculatedValue"></label><br>
+<label id="calculatedValueR"></label><br>
+<label id="calculatedValueG"></label><br>
+<label id="calculatedValueB"></label><br>
 <div class="imgFilter" id="imgFilter">
     <canvas class="scaledImage" id="scaledImage"></canvas>
     <!--    <img id="weirdImage" style="visibility: hidden">-->
@@ -126,6 +125,8 @@
         </th>
         <th>Miasto
             <button type="button" onclick="orderBy('by_city')">Sort</button>
+        </th>
+        <th>Zdjecie
         </th>
     </tr>
     </thead>

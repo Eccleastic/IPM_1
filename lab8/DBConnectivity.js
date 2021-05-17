@@ -42,6 +42,8 @@ request.onupgradeneeded = function (event) {
     var emailIndex = userInformations.createIndex("by_email", "email");
     var phoneIndex = userInformations.createIndex("by_phone", "phone");
     var cityIndex = userInformations.createIndex("by_city", "city");
+    var imgURLIndex = userInformations.createIndex("by_imgURL", "imgURL");
+    var imgStringIndex = userInformations.createIndex("by_imgStringIndex", "imgString");
 
     // Populate with initial data.
     userInformations.add({
@@ -83,6 +85,8 @@ function add() {
     var idNumber = document.getElementById("idNumber").value;
     var postalCode = document.getElementById("kod_pocztowy").value;
     var city = document.getElementById("city").value;
+    var imgLink = document.getElementById("imglink").value;
+    var canvas = document.getElementById("scaledImage");
 
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
@@ -93,7 +97,9 @@ function add() {
         phone: phone,
         idNumber: idNumber,
         postalCode: postalCode,
-        city: city
+        city: city,
+        imgURL: imgLink,
+        imgString: canvas.toDataURL("image/jpeg")
     });
 
     request.onsuccess = function (event) {
@@ -141,7 +147,9 @@ function updateTable() {
                 + cursor.value.phone + "</td><td>"
                 + cursor.value.idNumber + "</td><td>"
                 + cursor.value.postalCode + "</td><td>"
-                + cursor.value.city + "</td>"
+                + cursor.value.city + "</td><td>"
+                // TO-DO WYSWIETLANIE OBRAZKA W REKORDACH
+                + "</td>"
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td>"
             cursor.continue();
         } else {
@@ -169,7 +177,9 @@ function orderBy(fieldName) {
                 + cursor.value.phone + "</td><td>"
                 + cursor.value.idNumber + "</td><td>"
                 + cursor.value.postalCode + "</td><td>"
-                + cursor.value.city + "</td>"
+                + cursor.value.city + "</td><td>"
+                // TO-DO WYSWIETLANIE OBRAZKA W REKORDACH
+                + "</td>"
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
             cursor.continue();
         } else {
