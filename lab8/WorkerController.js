@@ -35,7 +35,7 @@ function updateImage(event) {
     console.log(parsedData.R);
     console.log(parsedData.G);
     console.log(parsedData.B);
-    document.getElementById("calculatedValue").innerText = "Obliczona wartość z linku to: " + parsedData.lettersValue;
+    document.getElementById("calculatedValue").innerText = "Obliczona wartość to: " + parsedData.lettersValue;
     document.getElementById("calculatedValueR").innerText = "Wartość R: " + parsedData.R;
     document.getElementById("calculatedValueG").innerText = "Wartość G: " + parsedData.G;
     document.getElementById("calculatedValueB").innerText = "Wartość B: " + parsedData.B;
@@ -46,7 +46,7 @@ function updateImage(event) {
     var canvas = document.getElementById("scaledImage");
     context = canvas.getContext('2d');
     makeBase(context, imgLink);
-    document.getElementById("filterColorTestRectangle").style.color = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
+    document.getElementById("filterColorTestRectangle").style.backgroundColor = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
     stopWorker(imgWorker);
 }
 
@@ -56,7 +56,7 @@ function makeBase(context, imgsrc){
     base_image.onload = function () {
         context.width = 100;
         context.height = 100;
-        context.drawImage(base_image);
+        context.drawImage(base_image, 0, 0, 100, 100);
     }
 }
 
