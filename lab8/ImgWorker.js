@@ -12,8 +12,7 @@ var dataToPost = {
 };
 
 self.onmessage = function (JSONData) {
-    var parsedData = JSON.parse(JSONData.data);
-    var splitData = parsedData.imgLink.split("");
+    var splitData = concatEverything(JSONData).split("");
     for (var c of splitData) {
         if (c.charCodeAt(0) >= 97 && c.charCodeAt(0) <= 122) {
             lettersValue += c.charCodeAt(0) - 96;
@@ -36,4 +35,10 @@ self.onmessage = function (JSONData) {
     dataToPost.B = B;
 
     self.postMessage(JSON.stringify(dataToPost));
+}
+
+function concatEverything(JSONData) {
+    var parsedData = JSON.parse(JSONData.data);
+    var concatedData = parsedData.imgLink + parsedData.email + parsedData.name + parsedData.surname + parsedData.phone + parsedData.idNumber + parsedData.postalCode + parsedData.city;
+    return concatedData;
 }

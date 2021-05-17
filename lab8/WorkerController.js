@@ -12,23 +12,18 @@
 var letterWorker;
 var imgWorker;
 
-var addRule = (function (style) {
-    var sheet = document.head.appendChild(style).sheet;
-    return function (selector, css) {
-        var propText = typeof css === "string" ? css : Object.keys(css).map(function (p) {
-            return p + ":" + (p === "content" ? "'" + css[p] + "'" : css[p]);
-        }).join(";");
-        sheet.insertRule(selector + "{" + propText + "}", sheet.cssRules.length);
-    };
-})(document.createElement("style"));
-
 
 function startImgWorker() {
     imgWorker = new Worker("ImgWorker.js");
-    var imgLink = document.getElementById("imglink").value;
-    document.getElementById("weirdImage").src = imgLink;
     const preJSONData = {
-        imgLink: imgLink
+        imgLink: document.getElementById("imglink").value,
+        email: document.getElementById("email").value,
+        name: document.getElementById("name").value,
+        surname: document.getElementById("surname").value,
+        phone: document.getElementById("phone").value,
+        idNumber: document.getElementById("idNumber").value,
+        postalCode: document.getElementById("kod_pocztowy").value,
+        city: document.getElementById("city").value
     };
     imgWorker.postMessage(JSON.stringify(preJSONData));
     imgWorker.addEventListener('message', updateImage);
