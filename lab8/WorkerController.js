@@ -41,8 +41,23 @@ function updateImage(event) {
     document.getElementById("calculatedValueB").innerText = "Wartość B: " + parsedData.B;
 
     document.getElementById("imgFilter").style.setProperty('--color', 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')');
-    document.getElementById("imgFilter").style.backgroundImage = "url('" + imgLink + "')";
+    // document.getElementById("imgFilter").style.backgroundImage = "url('" + imgLink + "')";
+
+    var canvas = document.getElementById("scaledImage");
+    context = canvas.getContext('2d');
+    makeBase(context, imgLink);
+    document.getElementById("filterColorTestRectangle").style.color = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
     stopWorker(imgWorker);
+}
+
+function makeBase(context, imgsrc){
+    base_image = new Image();
+    base_image.src = imgsrc;
+    base_image.onload = function () {
+        context.width = 100;
+        context.height = 100;
+        context.drawImage(base_image);
+    }
 }
 
 function startLetterWorker() {

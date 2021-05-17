@@ -86,6 +86,7 @@
 <label for="imglink">Link do obrazka:</label>
 <input type="text" id="imglink">
 <button onclick="startImgWorker()">Generuj</button>
+<canvas id="filterColorTestRectangle" width="20" height="20"></canvas>
 <label id="calculatedValue"></label>
 <br>
 <label id="calculatedValueR"></label>
@@ -95,7 +96,8 @@
 <label id="calculatedValueB"></label>
 <br>
 <div class="imgFilter" id="imgFilter">
-    <img id="weirdImage" style="visibility: hidden">
+    <canvas class="scaledImage" id="scaledImage"></canvas>
+    <!--    <img id="weirdImage" style="visibility: hidden">-->
 </div>
 <br>
 <label for="search">Wyszukaj</label>
