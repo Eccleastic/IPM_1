@@ -88,6 +88,8 @@ function add() {
     var imgLink = document.getElementById("imglink").value;
     var canvas = document.getElementById("scaledImage");
 
+    console.log("Canvas to data url function value: " + canvas.toDataURL("image/jpeg", 0.5));
+
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
     var request = objectStore.add({
@@ -99,7 +101,7 @@ function add() {
         postalCode: postalCode,
         city: city,
         imgURL: imgLink,
-        imgString: canvas.toDataURL("image/jpeg")
+        imgString: canvas.toDataURL("image/jpeg", 0.5)
     });
 
     request.onsuccess = function (event) {
