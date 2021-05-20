@@ -184,8 +184,13 @@
                 square.y < squares[i].y + squares[i].height &&
                 square.y + square.height > squares[i].y) {
 
-                // clear();
-                // squares[index] = {x:square.x, y:squares[i]}
+                // squares[index] = {
+                //     x: square.x,
+                //     y: squares[i].y - 100,
+                //     width: square.width,
+                //     height: square.height,
+                //     color: square.color
+                // };
                 alert('collision');
 
             }
