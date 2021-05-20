@@ -45,10 +45,6 @@ function updateImage(event) {
     document.getElementById("calculatedValueB").innerText = "Wartość B: " + parsedData.B;
     var rgbvalue = 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')';
 
-    // document.getElementById("imgFilter").style.setProperty('--color', 'rgb(' + parsedData.R + ', ' + parsedData.G + ' ,' + parsedData.B + ')');
-    // document.getElementById("imgFilter").style.backgroundImage = "url('" + imgLink + "')";
-
-
     insertImgCanvas(imgLink, parsedData.R, parsedData.G, parsedData.B);
     stopWorker(imgWorker);
 }
@@ -58,18 +54,14 @@ function insertImgCanvas(imgsrc, r, g, b) {
     var context = canvas.getContext('2d');
 
     var base_image = new Image();
-    base_image.setAttribute('crossOrigin', 'anonymous');
+    // base_image.crossOrigin = 'anonymous';
     base_image.src = imgsrc;
     base_image.onload = function () {
         context.width = 100;
         context.height = 100;
         context.drawImage(base_image, 0, 0, 100, 100);
-        // context.rect(0,0,50,50);
-        context.fillStyle = 'rgba(' + r + ',' + g + ',' + b +', 0.5)';
-        context.fillRect(0,0, 50,50);
-        // context.stroke();
-        canvas.toDataURL("image/jpeg");
-        // console.log(canvas.toDataURL("image/jpeg"));
+        context.fillStyle = 'rgba(' + r + ',' + g + ',' + b +', 0.75)';
+        context.fillRect(0,0, 20,20);
     }
 }
 

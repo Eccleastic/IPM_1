@@ -88,7 +88,7 @@ function add() {
     var imgLink = document.getElementById("imglink").value;
     var canvas = document.getElementById("scaledImage");
 
-    console.log("Canvas to data url function value: " + canvas.toDataURL("image/jpeg", 0.5));
+    // var image = canvas.toDataURL("image/jpeg", 0.5);
 
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
@@ -101,7 +101,7 @@ function add() {
         postalCode: postalCode,
         city: city,
         imgURL: imgLink,
-        imgString: canvas.toDataURL("image/jpeg", 0.5)
+        imgString: ""
     });
 
     request.onsuccess = function (event) {
@@ -140,7 +140,6 @@ function updateTable() {
     objectStore.index(orderByField).openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
-            // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
             usersTable.innerHTML +=
                 "<tr><td>" + cursor.value.id + "</td><td>"
                 + cursor.value.email + "</td><td>"
@@ -150,8 +149,7 @@ function updateTable() {
                 + cursor.value.idNumber + "</td><td>"
                 + cursor.value.postalCode + "</td><td>"
                 + cursor.value.city + "</td><td>"
-                // TO-DO WYSWIETLANIE OBRAZKA W REKORDACH
-                + "</td>"
+                + "<img src=\""+cursor.value.imgURL +"\" width='100' height='100'></td>"
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td>"
             cursor.continue();
         } else {
@@ -180,8 +178,7 @@ function orderBy(fieldName) {
                 + cursor.value.idNumber + "</td><td>"
                 + cursor.value.postalCode + "</td><td>"
                 + cursor.value.city + "</td><td>"
-                // TO-DO WYSWIETLANIE OBRAZKA W REKORDACH
-                + "</td>"
+                + "<img src=\""+cursor.value.imgURL +"\" width='100' height='100'></td>"
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
             cursor.continue();
         } else {
@@ -266,6 +263,7 @@ function search() {
                         + cursor.value.idNumber + "</td><td>"
                         + cursor.value.postalCode + "</td><td>"
                         + cursor.value.city + "</td>"
+                        + "<img src=\""+cursor.value.imgURL +"\" width='100' height='100'></td>"
                         + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
                     cursor.continue();
                 } else {
