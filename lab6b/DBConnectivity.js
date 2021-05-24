@@ -134,15 +134,16 @@ function updateTable() {
         if (cursor) {
             // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
             usersTable.innerHTML +=
-                "<tr><td>" + cursor.value.id + "</td><td>"
-                + cursor.value.email + "</td><td>"
-                + cursor.value.name + "</td><td>"
-                + cursor.value.surname + "</td><td>"
-                + cursor.value.phone + "</td><td>"
-                + cursor.value.idNumber + "</td><td>"
-                + cursor.value.postalCode + "</td><td>"
+                "<tr><td >" + cursor.value.id + "</td><td id='email" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.email + "</td><td id='name" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.name + "</td><td id='surname" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.surname + "</td><td id='phone" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.phone + "</td><td id='idNumber" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.idNumber + "</td><td id='postalCode" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.postalCode + "</td><td id='city" + cursor.value.id + "' contenteditable='true'>"
                 + cursor.value.city + "</td>"
-                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td>"
+                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button>"
+                + "<button type='button' onclick='edit(" + cursor.value.id + ")'>Potwierdz edycje</button> </td>"
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -162,15 +163,16 @@ function orderBy(fieldName) {
         var cursor = event.target.result;
         if (cursor) {
             usersTable.innerHTML +=
-                "<tr><td>" + cursor.value.id + "</td><td>"
-                + cursor.value.email + "</td><td>"
-                + cursor.value.name + "</td><td>"
-                + cursor.value.surname + "</td><td>"
-                + cursor.value.phone + "</td><td>"
-                + cursor.value.idNumber + "</td><td>"
-                + cursor.value.postalCode + "</td><td>"
+                "<tr><td >" + cursor.value.id + "</td><td id='email" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.email + "</td><td id='name" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.name + "</td><td id='surname" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.surname + "</td><td id='phone" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.phone + "</td><td id='idNumber" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.idNumber + "</td><td id='postalCode" + cursor.value.id + "' contenteditable='true'>"
+                + cursor.value.postalCode + "</td><td id='city" + cursor.value.id + "' contenteditable='true'>"
                 + cursor.value.city + "</td>"
-                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
+                + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button>"
+                + "<button type='button' onclick='edit(" + cursor.value.id + ")'>Potwierdz edycje</button> </td>"
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -182,15 +184,15 @@ function orderBy(fieldName) {
 
 }
 
-function edit() {
-    var id = parseInt(document.getElementById("index").value);
-    var email = document.getElementById("editemail").value;
-    var name = document.getElementById("editname").value;
-    var surname = document.getElementById("editsurname").value;
-    var phone = document.getElementById("editphone").value;
-    var idNumber = document.getElementById("editidNumber").value;
-    var postalCode = document.getElementById("editkod_pocztowy").value;
-    var city = document.getElementById("editcity").value;
+function edit(id) {
+    var email = document.getElementById("email" + id).innerText;
+    var name = document.getElementById("name" + id).innerText;
+    var surname = document.getElementById("surname" + id).innerText;
+    var phone = document.getElementById("phone" + id).innerText;
+    var idNumber = document.getElementById("idNumber" + id).innerText;
+    var postalCode = document.getElementById("postalCode" + id).innerText;
+    var city = document.getElementById("city" + id).innerText;
+    console.log(email + name + surname + phone + idNumber + postalCode + city);
 
     var transaction = db.transaction(["users"], "readwrite");
     var objectStore = transaction.objectStore("users");
@@ -206,14 +208,14 @@ function edit() {
     });
 
     request.onsuccess = function (event) {
-        console.log("Added: " + email + " " + name + surname + " " + phone)
+        console.log("Edited: " + email + " " + name + surname + " " + phone)
     }
 
     request.onerror = function (event) {
-        alert("ADD ERROR");
+        alert("Edit ERROR");
     }
 
-    updateTable();
+    // updateTable();
 }
 
 function deleteRecord(user_ID) {
@@ -237,24 +239,24 @@ function search() {
             var cursor = event.target.result;
             if (cursor) {
                 if (
-                    cursor.value.email.toLowerCase().search(searchInput) > -1 ||
-                    cursor.value.name.toLowerCase().search(searchInput) > -1 ||
-                    cursor.value.surname.toLowerCase().search(searchInput) > -1 ||
-                    cursor.value.idNumber.toLowerCase().search(searchInput) > -1 ||
-                    cursor.value.postalCode.toLowerCase().search(searchInput) > -1 ||
-                    cursor.value.city.toLowerCase().search(searchInput) > -1
+                    cursor.value.email.toLowerCase().includes(searchInput) > -1 ||
+                    cursor.value.name.toLowerCase().includes(searchInput) > -1 ||
+                    cursor.value.surname.toLowerCase().includes(searchInput) > -1 ||
+                    cursor.value.idNumber.toLowerCase().includes(searchInput) > -1 ||
+                    cursor.value.postalCode.toLowerCase().includes(searchInput) > -1 ||
+                    cursor.value.city.toLowerCase().includes(searchInput) > -1
                 ) {
-                    // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
                     usersTable.innerHTML +=
-                        "<tr><td>" + cursor.value.id + "</td><td>"
-                        + cursor.value.email + "</td><td>"
-                        + cursor.value.name + "</td><td>"
-                        + cursor.value.surname + "</td><td>"
-                        + cursor.value.phone + "</td><td>"
-                        + cursor.value.idNumber + "</td><td>"
-                        + cursor.value.postalCode + "</td><td>"
+                        "<tr><td >" + cursor.value.id + "</td><td id='email" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.email + "</td><td id='name" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.name + "</td><td id='surname" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.surname + "</td><td id='phone" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.phone + "</td><td id='idNumber" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.idNumber + "</td><td id='postalCode" + cursor.value.id + "' contenteditable='true'>"
+                        + cursor.value.postalCode + "</td><td id='city" + cursor.value.id + "' contenteditable='true'>"
                         + cursor.value.city + "</td>"
-                        + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button></td></tr>"
+                        + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button>"
+                        + "<button type='button' onclick='edit(" + cursor.value.id + ")'>Potwierdz edycje</button> </td>"
                     cursor.continue();
                 } else {
                     cursor.continue();
