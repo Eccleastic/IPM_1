@@ -215,7 +215,7 @@ function edit(id) {
         alert("Edit ERROR");
     }
 
-    // updateTable();
+    updateTable();
 }
 
 function deleteRecord(user_ID) {
@@ -239,12 +239,12 @@ function search() {
             var cursor = event.target.result;
             if (cursor) {
                 if (
-                    cursor.value.email.toLowerCase().includes(searchInput) > -1 ||
-                    cursor.value.name.toLowerCase().includes(searchInput) > -1 ||
-                    cursor.value.surname.toLowerCase().includes(searchInput) > -1 ||
-                    cursor.value.idNumber.toLowerCase().includes(searchInput) > -1 ||
-                    cursor.value.postalCode.toLowerCase().includes(searchInput) > -1 ||
-                    cursor.value.city.toLowerCase().includes(searchInput) > -1
+                    cursor.value.email.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.name.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.surname.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.idNumber.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.postalCode.toLowerCase().search(searchInput) > -1 ||
+                    cursor.value.city.toLowerCase().search(searchInput) > -1
                 ) {
                     usersTable.innerHTML +=
                         "<tr><td >" + cursor.value.id + "</td><td id='email" + cursor.value.id + "' contenteditable='true'>"
