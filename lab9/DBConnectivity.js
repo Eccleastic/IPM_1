@@ -184,7 +184,8 @@ function updateTable() {
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button>"
                 + "<button type='button' onclick='edit(" + cursor.value.id + ")'>Potwierdz edycje</button> </td>"
 
-            userSelectDropDown.innerHTML += "<option value='" + cursor.value.id + cursor.value.surname + "'>" + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + "</option>";
+            userSelectDropDown.innerHTML += "<option>" + cursor.value.name + " " + cursor.value.surname + "</option>";
+            // userSelectDropDown.innerHTML += "<option value='" + cursor.value.id + cursor.value.surname + "'>" + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + "</option>";
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -409,8 +410,20 @@ function addToCart(productIndex, productPrice, productName) {
 
 function generateInvoice() {
     invoiceTable = document.getElementById("faktura");
+    pickedUser = document.getElementById("buyerSelect");
 
-    invoiceTable.innerHTML = "<div>Kupujący: "+ document.getElementById("buyerSelect").value +"</div>";
+    invoiceTable.innerHTML = "<div>Kupujący: " + pickedUser.options[pickedUser.selectedIndex].value + "</div>" +
+        "Produkty: <table><thead>" +
+        "<tr><th>Produkt</th><th>Cena</th></tr>" +
+        "</thead>";
+
+
+    for (let i = 0; i < productsCart.length; i++) {
+        invoiceTable.innerHTML += "<tr>"
+            + "<td>" + productsCart[i][0] + "</td></tr>" +
+            "<td>" + productsCart[i][1] + "</td>";
+    }
+    invoiceTable.innerHTML += "</tbody></table>";
 }
 
 
