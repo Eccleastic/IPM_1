@@ -9,6 +9,10 @@ randomSurnameF = ["Kowalska", "Nowacka", "Piotrkowska", "Janicka", "Sobieska", "
 randomCity = ["Warszawa", "Kraków", "Poznań", "Łódź", "Wrocław", "Gdańsk", "Szczecin", "Bydgoszcz", "Lublin", "Białystok", "Katowice"];
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+var priceSum = 0;
+var productsCount = 0;
+var productsCart = [];
+
 orderByField = "by_name";
 
 if (!window.indexedDB) {
@@ -161,7 +165,9 @@ function read() {
 function updateTable() {
     var usersTable = document.getElementById("usersTable");
     var objectStore = db.transaction(["users"]).objectStore("users");
+    var userSelectDropDown = document.getElementById("buyerSelect");
     usersTable.innerHTML = "";
+    userSelectDropDown.innerHTML = ";"
     objectStore.index(orderByField).openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
@@ -191,13 +197,12 @@ function updateProductsTable() {
     objectStore.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
-            // console.log("User: " + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + " Email: " + cursor.value.email);
             productsTable.innerHTML +=
                 "<tr><td >" + cursor.value.id + "</td>" +
                 "<td id='" + cursor.value.productName + "'>" + cursor.value.productName + "</td>" +
                 "<td>" + cursor.value.productPrice + "</td>" +
                 "<td>" + cursor.value.productDescription + "</td>" +
-                + "<td><button type=\"button\" onClick=\"addToCart(" + cursor.value.id + ")\">Dodaj do koszyka</button>"
+                "<td><button type='button' onclick='addToCart(" + cursor.value.id + ", " + cursor.value.productPrice + ", " + cursor.value.productName + ")'>Dodaj do koszyka </td>"
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -390,4 +395,17 @@ function addToDB(email, name, surname, phone, idNumber, postalCode, city) {
     }
 
     updateTable();
+}
+
+function addToCart(productIndex, productPrice, productName) {
+    priceSum += productPrice;
+    productsCart[productsCount] = [productName, productPrice];
+    productsCount += 1;
+    document.getElementById("productsCount").innerText = "Ilosc produktów: " + productsCount;
+    document.getElementById("price").innerText = "Do zapłaty: " + priceSum;
+}
+
+function generateInvoice() {
+    invoiceTable = document.getElementById("faktura");
+
 }
