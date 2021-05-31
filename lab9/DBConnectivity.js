@@ -167,7 +167,7 @@ function updateTable() {
     var objectStore = db.transaction(["users"]).objectStore("users");
     var userSelectDropDown = document.getElementById("buyerSelect");
     usersTable.innerHTML = "";
-    userSelectDropDown.innerHTML = ";"
+    userSelectDropDown.innerHTML = "";
     objectStore.index(orderByField).openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
@@ -183,6 +183,8 @@ function updateTable() {
                 + cursor.value.city + "</td>"
                 + "<td><button type=\"button\" onClick=\"deleteRecord(" + cursor.value.id + ")\">Delete</button>"
                 + "<button type='button' onclick='edit(" + cursor.value.id + ")'>Potwierdz edycje</button> </td>"
+
+            userSelectDropDown.innerHTML += "<option value='" + cursor.value.id + cursor.value.surname + "'>" + cursor.value.id + " " + cursor.value.name + " " + cursor.value.surname + "</option>";
             cursor.continue();
         } else {
             // console.log("That's all.");
@@ -408,4 +410,23 @@ function addToCart(productIndex, productPrice, productName) {
 function generateInvoice() {
     invoiceTable = document.getElementById("faktura");
 
+    invoiceTable.innerHTML = "<div>Kupujący: "+ document.getElementById("buyerSelect").value +"</div>";
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
